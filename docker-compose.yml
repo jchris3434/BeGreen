@@ -1,54 +1,52 @@
 version: "3.4"
 
 x-common-variables: &common-variables
-  MYSQL_USER: sampleuser
-  MYSQL_PASSWORD: samplepassword
-  MYSQL_DATABASE: sampledb
-  REACT_APP_SERVER_PORT: 8000
+  MYSQL_USER: jc
+  MYSQL_PASSWORD: jc
+  MYSQL_DATABASE: jcdatabase
+  REACT_APP_SERVER_PORT: 8652
 
 services:
   mysql-db:
     image: mysql:5.7
-    container_name: mysql_container
+    container_name: GreenSQL
     environment:
       <<: *common-variables
       MYSQL_HOST: localhost
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
-    restart: unless-stopped
     volumes:
       - ./db/sample.sql:/docker-entrypoint-initdb.d/sample.sql
   phpmyadmin:
     depends_on:
       - mysql-db
     image: phpmyadmin/phpmyadmin
-    container_name: phpadmin_container
+    container_name: phpadmin_green
     environment:
       PMA_HOST: mysql-db
     links:
       - mysql-db:mysql-db
     ports:
-      - 8080:80
-    restart: always
+      - 8090:80
   server:
     build: ./server
-    container_name: node_server_container
+    container_name: node_server_green
     depends_on:
       - mysql-db
     environment:
       <<: *common-variables
       MYSQL_HOST_IP: mysql-db
     ports:
-      - 8000:8000
+      - 8652:8652
     volumes:
       - ./server:/app
     links:
       - mysql-db
-    command: npm start
+    command: "npm start && babel-node --presets es2015 index.js"
   client:
     build: ./client
-    container_name: client_container
+    container_name: client_front
     environment:
       <<: *common-variables
       NODE_PATH: src

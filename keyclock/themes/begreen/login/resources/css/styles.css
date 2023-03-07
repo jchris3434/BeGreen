@@ -1,0 +1,29 @@
+.login-pf body {
+    background-image: url('../img/acceuil_begreen.jpg');
+    background-size: cover;
+}
+
+.card-pf {
+    width: 20rem;
+    background-color: transparent;
+    border-top-width: 0px;
+}
+
+.pf-c-form__label-text{
+    color: white;
+    font-size: 17px;
+}
+
+.form-group{
+    text-align: center;
+}
+
+.pf-c-form-control{
+    border-radius: 10px;
+}
+
+#kc-login{
+    background-color: green;
+    border-radius: 15px;
+    width: 80%;
+}
